@@ -2,9 +2,11 @@ package com.unicus.sv.ga.praktik;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import java.time.Duration;
+import java.util.List;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.locators.RelativeLocator;
@@ -12,6 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
+import org.testng.asserts.SoftAssert;
 
 /**
  *
@@ -85,8 +88,7 @@ public class Playground2 {
     public void testcase11() {
         String topBoxS = d.findElement(RelativeLocator.with(By.tagName("span")).below(
                 d.findElements(By.tagName("h3")).get(2))).getText();
-        topBoxS.substring(0, topBoxS.indexOf(' '));
-        d.findElement(By.id("answer11")).sendKeys();
+        d.findElement(By.id("answer11")).sendKeys(topBoxS.substring(0, topBoxS.indexOf(' ')));
     }
 
     @Test(priority = 12)
@@ -127,8 +129,15 @@ public class Playground2 {
 
     @AfterTest
     public void summarizeAndClose() {
-        ...
+        List<WebElement> outcomes = d.findElements(By.cssSelector(".ok"));
+        List<WebElement> outcomesPass = d.findElements(By.cssSelector(".pass"));
+//        List<WebElement> outcomesFail = d.findElements(By.cssSelector(".fail"));
+        SoftAssert sa = new SoftAssert();
+        for (int i = 0; i < outcomes.size(); i++) {
+            sa.assertTrue(outcomesPass.contains(outcomes.get(i)), "Task " + i + " failed");
+        }
         d.quit();
+        sa.assertAll();
     }
 
     @BeforeTest
