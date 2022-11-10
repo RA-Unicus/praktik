@@ -1,4 +1,4 @@
-package com.unicus.sv.ga.praktik;
+package com.unicus.sv.ga.praktik.selenium;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import java.time.Duration;
@@ -28,7 +28,7 @@ public class Playground2 {
 
     RemoteWebDriver d;
 
-    @Test(priority = 1)
+    @Test(priority = 1, dependsOnMethods = "openBrowser")
     public void testcase01() {
         d.findElement(By.id("answer1")).sendKeys(d.getTitle());
     }
@@ -140,7 +140,7 @@ public class Playground2 {
         sa.assertAll();
     }
 
-    @BeforeTest
+    @BeforeTest (dependsOnMethods = "manageBrowsers")
     public void openBrowser() {
         d = new EdgeDriver();
         d.manage().timeouts().implicitlyWait(Duration.ofMillis(500));

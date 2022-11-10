@@ -1,4 +1,4 @@
-package com.unicus.sv.ga.praktik;
+package com.unicus.sv.ga.praktik.selenium;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import java.time.Duration;
