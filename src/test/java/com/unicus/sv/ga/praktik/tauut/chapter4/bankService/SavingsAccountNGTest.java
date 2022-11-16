@@ -19,10 +19,18 @@ public class SavingsAccountNGTest {
         savings = new SavingsAccount(customer, 100, 123456789);
     }
 
-    @Test
-    public void withdrawValid() throws InsufficientFundsException {
-        savings.withdraw(60);
-        assertEquals(savings.getBalance(), 40);
+    @Test(dataProvider = "ValidData")
+    public void withdrawValid(double amount, double expectedRemaining) throws InsufficientFundsException {
+        savings.withdraw(amount);
+        assertEquals(savings.getBalance(), expectedRemaining);
+    }
+    
+    @DataProvider(name = "ValidData")
+    private Object[][] validData() {
+        return new Object[][] {
+            {60d, 40d},
+            {100d, 0d}
+        };
     }
 
     @Test//(expectedExceptions = InsufficientFundsException.class)
